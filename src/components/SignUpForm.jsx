@@ -4,9 +4,17 @@ export default function SignUpForm({ setToken }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [validate, setValidate] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setValidate("")
+
+    if (username.length < 5 || password.length < 5) {
+        setValidate('Username and Password must be at least 5 characters long.');
+        return;
+      }
+
     try {
       const response = await fetch(
         "https://fsa-jwt-practice.herokuapp.com/signup",
@@ -34,6 +42,7 @@ export default function SignUpForm({ setToken }) {
     <>
       <h2>Sign Up</h2>
       {error && <p>{error}</p>}
+      {validate && <p>{validate}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           Username:{" "}
